@@ -81,15 +81,12 @@ void Jugador::GenerarPalabra(int difficulty){
 
         while(!file.eof() && i != selection){
             getline(file, word);
-            
-            cout << word << endl;
 
             i++;
         }
 
         file.close();
 
-        system("pause");
         system("cls");
         Jugar(word, vidas);
     }
@@ -150,22 +147,48 @@ void dificultad(){
 }
 
 void Jugar(string word, int vidas){
-    string word2, palabraAdivinando = "_ _ _ _";
+    string word2, palabraAdivinando = "----", palabraAux;
+    bool win = false;
 
     do{
+        cout <<"Vidas: " << vidas << endl << endl;
         cout << palabraAdivinando << endl;
         cout <<"\nIngrese una letra: "; cin >> word2;
 
+        palabraAux = palabraAdivinando;
+        
         for(int i = 0; i <= word.length(); i++){
+
+            if(word2[0] == palabraAux[i]){
+                cout <<"\nYa habia ingresado esa letra\n\n"; 
+                system("pause");
+                vidas++; break;
+            }
             if(word2[0] == word[i]){
                 palabraAdivinando[i] = word2[0];
             }
-            else{
-                vidas--;
-            }
         }
 
-    }while(vidas != 0);
+        if(palabraAdivinando == palabraAux)
+            vidas--;
+        
+        if(palabraAdivinando == word)
+            win = true;
+
+        system("cls");
+    }while((vidas != 0) && (win == false));
+
+    if(win == true){
+        cout <<"\nHas adivinado la palabra, Felicidades!!! :D\n\n";
+    }
+    else{
+        cout <<"\nGAME OVER\n\n";
+    }
+    
+    cout <<"La palabra era: " << word << endl << endl;
+
+    system("pause");
+    system("cls");
 }
 
 void agregarPalabras(){
